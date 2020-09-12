@@ -1,0 +1,20 @@
+[[plugins]]
+package = "./plugins/fetch-importmaps"
+
+[build.environment]
+  IMPORTMAP_FILE = "[githash].single-spa-books-navbar.js"
+  IMPORTMAP_SERVICE = "@single-spa-books/navbar"
+
+[context.production.environment]
+  IMPORTMAP_FILE_URL = "https://single-spa-books-navbar.netlify.app/"
+  IMPORTMAP_URL = "https://single-spa-books.herokuapp.com/services?skip_url_check"
+
+[context.develop.environment]
+  IMPORTMAP_FILE_URL = "https://develop--single-spa-books-navbar.netlify.app/"
+  IMPORTMAP_URL = "https://single-spa-books.herokuapp.com/services?env=dev&skip_url_check"
+
+[[headers]]
+  for = "/*"
+    [headers.values]
+    Access-Control-Allow-Origin = "*"
+
