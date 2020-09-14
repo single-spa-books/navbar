@@ -19,6 +19,17 @@ function getOutput(defaultConfig) {
   };
 }
 
+function getHttps() {
+  if (global.process.env.WEBPACK_DEV_SERVER === "true") {
+    return {
+      key: fs.readFileSync("./certificates/cert-key.pem"),
+      cert: fs.readFileSync("./certificates/cert.pem"),
+    };
+  }
+
+  return {};
+}
+
 module.exports = (webpackConfigEnv) => {
   const defaultConfig = singleSpaDefaults({
     orgName: "single-spa-books",
@@ -31,10 +42,7 @@ module.exports = (webpackConfigEnv) => {
   return webpackMerge.smart(defaultConfig, {
     devServer: {
       hot: true,
-      https: {
-        key: fs.readFileSync("./certificates/cert-key.pem"),
-        cert: fs.readFileSync("./certificates/cert.pem"),
-      },
+      https: getHttps(),
     },
     output: getOutput(defaultConfig),
     plugins: [new WebpackGitHash()],
